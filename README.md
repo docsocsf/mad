@@ -36,6 +36,21 @@ source .env/Scripts/activate
 pip install -r requirements.txt
 ```
 
+
+## Creating required database
+
+Execute this operation every time you pull updates from the repository. This command updates your database to reflect
+the changes made.
+
+```
+python manage.py migrate
+```
+
+## Setting up local config
+
+Secret and local information should not be uploaded to git that is why you should NEVER commit config.py. Instead make a
+copy of sampleconfig.py and save it as config.py. Make changes if need be.
+
 ## Running the server
 
 ```
