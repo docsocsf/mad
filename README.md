@@ -6,6 +6,11 @@ To start contributing you first need to fork this repository. It is not possible
 repository. If you dont feel confident with using git then 
 [find out more here.](https://gist.github.com/Chaser324/ce0505fbed06b947d962#file-github-forking-md)
 
+If you don't know what to start working on then have a look at the [Issues](https://github.com/docsocsf/mad/issues) tab 
+in the repository and have a got at solving one of the tasks. If you have any questions feel free to contact any of the 
+[frequent contributors](https://github.com/docsocsf/mad/graphs/contributors) or ask in our slack, we are here to help 
+you get started.
+
 ## Setting up virtual environment (Recommended)
 
 Virtual environment is where all libraries used in this project will be installed. It is not required to use one but its
