@@ -36,6 +36,13 @@ source .env/Scripts/activate
 pip install -r requirements.txt
 ```
 
+## Setting up local config and database
+
+Secret and local information should not be uploaded to git that is why you should NEVER commit config.py. Instead **make a
+copy of sampleconfig.py and save it as config.py**. Make changes if need be.
+
+The database should not be pushed to git either because it will contain local data instead you should **make a copy of 
+sampledb.sqlite3 and save it as db.sqlite3**.
 
 ## Creating required database
 
@@ -45,11 +52,6 @@ the changes made.
 ```
 python manage.py migrate
 ```
-
-## Setting up local config
-
-Secret and local information should not be uploaded to git that is why you should NEVER commit config.py. Instead make a
-copy of sampleconfig.py and save it as config.py. Make changes if need be.
 
 ## Running the server
 
