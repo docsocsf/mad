@@ -9,5 +9,4 @@ dependencies:
 
 test:
   override:
-    - chmod +x ./test.sh
-    - ./test.sh
+    - sh ./test.sh
