@@ -20,3 +20,10 @@ class SignUpForm(BaseForm):
         widgets = {
             'username': forms.TextInput(attrs={'placeholder': 'xy1217'}),
         }
+
+    def clean_username(self):
+        username = self.cleaned_data['username']
+
+        # ToDo: Check if the username provided looks valid
+
+        return username

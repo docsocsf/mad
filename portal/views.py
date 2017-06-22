@@ -8,7 +8,6 @@ def index(request, position="child", popup=None):
         form = SignUpForm(request.POST)
         if form.is_valid():
             # ToDo: Spam protection - limit the number of requests before the user gets ignored
-            # ToDo: Check if the username provided looks valid using RegEx
             # ToDo: Check if student exists and if he does then tell him to check his email
 
             student = form.save(commit=False)
