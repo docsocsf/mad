@@ -30,13 +30,13 @@ virtualenv .env
 source .env/Scripts/activate
 ```
 
-## Installing dependencies
+### Installing dependencies
 
 ```
 pip install -r requirements.txt
 ```
 
-## Setting up local config and database
+### Setting up local config and database
 
 Secret and local information should not be uploaded to git that is why you should NEVER commit config.py. Instead **make a
 copy of sampleconfig.py and save it as config.py**. Make changes if need be.
@@ -44,7 +44,7 @@ copy of sampleconfig.py and save it as config.py**. Make changes if need be.
 The database should not be pushed to git either because it will contain local data instead you should **make a copy of 
 sampledb.sqlite3 and save it as db.sqlite3**.
 
-## Creating required database
+### Creating required database
 
 Execute this operation every time you pull updates from the repository. This command updates your database to reflect
 the changes made.
@@ -53,13 +53,13 @@ the changes made.
 python manage.py migrate
 ```
 
-## Running the server
+### Running the server
 
 ```
 ./manage.py runserver 8000
 ```
 
-## Testing
+### Testing
 
 Before submitting a pull request run all tests to make sure you have not broken any functionality. To run tests use
 the following command.
@@ -67,6 +67,12 @@ the following command.
 ```
 ./test.sh
 ```
+
+#### Continuous Integration (Recommended)
+
+This project is compatible with Circle CI. We would encourage you to set up Circle CI for your forked repository to make
+sure you do not submit a pull request which does not pass all test. 
+[Find out more here.](https://circleci.com/blog/what-is-continuous-integration/)
 
 ## Project Specification
 
