@@ -1,0 +1,13 @@
+machine:
+  python:
+    version: 3.5.3
+
+dependencies:
+  pre:
+    - cp sampleconfig.py config.py
+    - cp sampledb.sqlite3 db.sqlite3
+
+test:
+  override:
+    - chmod +x ./test.sh
+    - ./test.sh
