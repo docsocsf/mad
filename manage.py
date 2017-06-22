@@ -3,6 +3,11 @@ import os
 import sys
 
 if __name__ == "__main__":
+    if not os.path.isfile("config.py"):
+        print("File config.py is missing.")
+        print("Create a copy of sampleconfig.py, save it as config.py. Change settings if need be.")
+        exit(-1)
+
     os.environ.setdefault("DJANGO_SETTINGS_MODULE", "mad.settings")
     try:
         from django.core.management import execute_from_command_line

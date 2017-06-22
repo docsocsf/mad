@@ -1,0 +1,46 @@
+{% extends 'base.html' %}
+
+{% load bootstrap3 %}
+{% load static %}
+
+{% block title %}
+    Mums and Dads Portal
+{% endblock %}
+
+{% block head %}
+    <link href="{% static 'portal/css/index.css' %}" rel="stylesheet" type="text/css"/>
+{% endblock %}
+
+{% block content %}
+    <div class="row">
+        <div class="col-sm-6 col-sm-offset-3 col-md-4 col-md-offset-4">
+            <h1 class="text-center login-title">Register as a {{ position }}</h1>
+            <div class="account-wall">
+                <form class="form-signin" method="post">
+                    {% if popup %}
+                        <div class="alert alert-{{ popup.state }}">
+                            {{ popup.message }}
+                        </div>
+                    {% endif %}
+
+                    {% csrf_token %}
+                    {{ form }}
+
+                    <button class="btn btn-lg btn-primary btn-block" type="submit">
+                        Register as a {{ position }}
+                    </button>
+                </form>
+
+                {% if position == "parent" %}
+                    <a href="{% url 'portal:index' position='child' %}" class="need-help">
+                        I'm not a {{ position }}?
+                    </a>
+                {% else %}
+                    <a href="{% url 'portal:index' position='parent' %}" class="need-help">
+                        I'm not a {{ position }}?
+                    </a>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+{% endblock %}

@@ -6,6 +6,11 @@ To start contributing you first need to fork this repository. It is not possible
 repository. If you dont feel confident with using git then 
 [find out more here.](https://gist.github.com/Chaser324/ce0505fbed06b947d962#file-github-forking-md)
 
+If you don't know what to start working on then have a look at the [Issues](https://github.com/docsocsf/mad/issues) tab 
+in the repository and have a got at solving one of the tasks. If you have any questions feel free to contact any of the 
+[frequent contributors](https://github.com/docsocsf/mad/graphs/contributors) or ask in our slack, we are here to help 
+you get started.
+
 ## Setting up virtual environment (Recommended)
 
 Virtual environment is where all libraries used in this project will be installed. It is not required to use one but its
@@ -31,10 +36,34 @@ source .env/Scripts/activate
 pip install -r requirements.txt
 ```
 
+
+## Creating required database
+
+Execute this operation every time you pull updates from the repository. This command updates your database to reflect
+the changes made.
+
+```
+python manage.py migrate
+```
+
+## Setting up local config
+
+Secret and local information should not be uploaded to git that is why you should NEVER commit config.py. Instead make a
+copy of sampleconfig.py and save it as config.py. Make changes if need be.
+
 ## Running the server
 
 ```
 ./manage.py runserver 8000
+```
+
+## Testing
+
+Before submitting a pull request run all tests to make sure you have not broken any functionality. To run tests use
+the following command.
+
+```
+./test.sh
 ```
 
 ## Project Specification

@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <title>{% block title %}{% endblock %}</title>
+        {# Load the tag library #}
+        {% load bootstrap3 %}
+        {% load static %}
+
+        {# Load CSS and JavaScript #}
+        {% bootstrap_css %}
+        {% bootstrap_javascript %}
+
+        {# Use to include CSS and JavaScript from other files #}
+        {% block head %}{% endblock %}
+
+        <link href="{% static 'css/main.css' %}" rel="stylesheet" type="text/css"/>
+    </head>
+    <body class="{% block body_class %}{% endblock %}">
+        <div class="container">
+            {% block content %}{% endblock %}
+        </div>
+    </body>
+</html>
