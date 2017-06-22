@@ -57,6 +57,15 @@ copy of sampleconfig.py and save it as config.py. Make changes if need be.
 ./manage.py runserver 8000
 ```
 
+## Testing
+
+Before submitting a pull request run all tests to make sure you have not broken any functionality. To run tests use
+the following command.
+
+```
+./test.sh
+```
+
 ## Project Specification
 
 ### Goals
