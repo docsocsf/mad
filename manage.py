@@ -2,11 +2,17 @@
 import os
 import sys
 
-if __name__ == "__main__":
-    if not os.path.isfile("config.py"):
-        print("File config.py is missing.")
-        print("Create a copy of sampleconfig.py, save it as config.py. Change settings if need be.")
+
+def required_file(required, sample):
+    if not os.path.isfile(required):
+        print("File %s is missing." % required)
+        print("Create a copy of %s, save it as %s. Change settings if need be." % (sample, required))
         exit(-1)
+
+
+if __name__ == "__main__":
+    required_file("config.py", "sampleconfig.py")
+    required_file("db.sqlite3", "sampledb.sqlite3")
 
     os.environ.setdefault("DJANGO_SETTINGS_MODULE", "mad.settings")
     try:
