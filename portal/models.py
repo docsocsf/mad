@@ -4,8 +4,7 @@ from common.util.generator import get_random_id
 
 
 class Student(models.Model):
-    # ToDo: Make username unique
-    username = models.CharField(max_length=7)
+    username = models.CharField(max_length=7,unique=True)
     magic_id = models.CharField(max_length=8)
     child = models.BooleanField()
 
