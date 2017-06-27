@@ -3,10 +3,23 @@ from django.db import models
 from common.util.generator import get_random_id
 
 
+class Hobby(models.Model):
+    description = models.CharField(max_length=300)
+
+    class Meta:
+        pass
+        # ToDo(martinzlocha): Set the correct plural name to be shown in admin page
+
+    def __str__(self):
+        return self.description
+
+
 class Student(models.Model):
     username = models.CharField(max_length=7,unique=True)
     magic_id = models.CharField(max_length=8)
     child = models.BooleanField()
+    party = models.BooleanField(default=False)
+    hobbies = models.ManyToManyField(to=Hobby, blank=True)
 
     def __str__(self):
         return self.username

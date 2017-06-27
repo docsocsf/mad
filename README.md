@@ -53,6 +53,15 @@ the changes made.
 python manage.py migrate
 ```
 
+### Loading static data - fixtures (Recommended)
+
+This will load static data like questions for the parents/children. It is useful to see how the website will look with
+data.
+
+```
+python manage.py loaddata portal.json
+```
+
 ### Running the server
 
 ```
