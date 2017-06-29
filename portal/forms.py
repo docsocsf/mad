@@ -21,7 +21,8 @@ class SignUpForm(forms.ModelForm):
 
 
 class PreferenceForm(forms.ModelForm):
-    hobbies = forms.ModelMultipleChoiceField(widget=forms.CheckboxSelectMultiple(), required=False, queryset=Hobby.objects.all())
+    hobbies = forms.ModelMultipleChoiceField(widget=forms.CheckboxSelectMultiple(), required=False,
+                                             queryset=Hobby.objects.all())
 
     class Meta:
         model = Student
@@ -39,3 +40,18 @@ class PreferenceForm(forms.ModelForm):
             raise ValidationError("Maximum of 5 hobbies.")
 
         return hobbies
+
+
+class PartnerForm(forms.ModelForm):
+    class Meta:
+        model = Student
+        fields = ('partner',)
+
+    def __init__(self, *args, **kwargs):
+        super(PartnerForm, self).__init__(*args, **kwargs)
+
+        # ToDo(martinzlocha): Filter the potential partner - remove self and people with requests/accepted
+
+    def get_successful_proposal_popup(self):
+        message = "Proposal has been successfully sent to %s." % self.cleaned_data['partner']
+        return {'message': message, 'state': 'success'}

@@ -77,6 +77,12 @@ the following command.
 ./test.sh
 ```
 
+### Login
+
+After entering your username in the login screen a popup will tell you that you will receive an email with a 
+confirmation link (not yet implemented). Instead look into the console log of the server (or admin page) to get the
+activation link.
+
 #### Continuous Integration (Recommended)
 
 This project is compatible with Circle CI. We would encourage you to set up Circle CI for your forked repository to make

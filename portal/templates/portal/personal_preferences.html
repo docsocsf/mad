@@ -1,0 +1,11 @@
+{% load bootstrap3 %}
+
+<form class="form-personal" method="post">
+    {% csrf_token %}
+
+    {% bootstrap_form preference %}
+
+    <button class="btn btn-lg btn-primary btn-block" name="preference" type="submit">
+        Save
+    </button>
+</form>

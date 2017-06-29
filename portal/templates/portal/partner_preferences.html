@@ -1,0 +1,66 @@
+{% load bootstrap3 %}
+
+{% if not student.child %}
+    {% if partner_popup %}
+        <div class="alert alert-{{ partner_popup.state }}">
+            {{ partner_popup.message }}
+        </div>
+    {% endif %}
+
+    {% if student.confirmed %}
+        <label class="control-label">Your partner is: </label> {{ student.partner }}
+    {% elif offer %}
+        <label class="control-label">
+            The following people to be their partner: (Cannot undo once accepted)
+        </label>
+
+
+        <ul class="list-group">
+            {% for student in offer %}
+                <li class="list-group-item" style="border: none;">
+                    <form method="post">
+                        {% csrf_token %}
+
+                        {{ student }}
+
+                        <input type="hidden" value="{{ student }}" name="username"/>
+
+                        <span class="pull-right">
+                            <button class="btn btn-success" name="accept" type="submit">
+                                Accept
+                            </button>
+
+                            <button class="btn btn-danger" name="reject" type="submit">
+                                Reject
+                            </button>
+                        </span>
+                    </form>
+                </li>
+
+            {% endfor %}
+        </ul>
+    {% elif student.partner %}
+        <form method="post">
+            {% csrf_token %}
+
+            <label class="control-label">Waiting for a response from: </label> {{ student.partner }}
+
+            <input type="hidden" value="{{ student }}" name="username"/>
+
+            <span class="pull-right">
+                <button class="btn btn-danger" name="withdraw" type="submit">
+                    Withdraw proposal
+                </button>
+            </span>
+        </form>
+    {% else %}
+        <form class="form-partner" method="post">
+            {% csrf_token %}
+            {% bootstrap_form partner %}
+
+            <button class="btn btn-lg btn-primary btn-block" type="submit">
+                Send request
+            </button>
+        </form>
+    {% endif %}
+{% endif %}
