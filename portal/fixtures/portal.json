@@ -1,0 +1,177 @@
+[  
+   {  
+      "model":"portal.hobby",
+      "pk":1,
+      "fields":{  
+         "description":"Air-based Sports - eg. Flying or skydiving"
+      }
+   },
+   {  
+      "model":"portal.hobby",
+      "pk":2,
+      "fields":{  
+         "description":"Amateur Dramatics - eg. drama or musical theatre"
+      }
+   },
+   {  
+      "model":"portal.hobby",
+      "pk":3,
+      "fields":{  
+         "description":"Art and Graphics - eg. photography or producing/enjoying art"
+      }
+   },
+   {  
+      "model":"portal.hobby",
+      "pk":4,
+      "fields":{  
+         "description":"Athletics and Exercise - eg. gymnastics, cycling or yoga"
+      }
+   },
+   {  
+      "model":"portal.hobby",
+      "pk":5,
+      "fields":{  
+         "description":"Basketball (and other basket based sports) - eg. Netball"
+      }
+   },
+   {  
+      "model":"portal.hobby",
+      "pk":6,
+      "fields":{  
+         "description":"Charitable - eg. raising money or activism"
+      }
+   },
+   {  
+      "model":"portal.hobby",
+      "pk":7,
+      "fields":{  
+         "description":"Cricket (and other bat games) - eg. baseball"
+      }
+   },
+   {  
+      "model":"portal.hobby",
+      "pk":8,
+      "fields":{  
+         "description":"Dancing - pair, pole or exotic"
+      }
+   },
+   {  
+      "model":"portal.hobby",
+      "pk":9,
+      "fields":{  
+         "description":"Exploration - caves and landscapes"
+      }
+   },
+   {  
+      "model":"portal.hobby",
+      "pk":10,
+      "fields":{  
+         "description":"Finance and Entrepreneurship"
+      }
+   },
+   {  
+      "model":"portal.hobby",
+      "pk":11,
+      "fields":{  
+         "description":"Football (soccer or American)"
+      }
+   },
+   {  
+      "model":"portal.hobby",
+      "pk":12,
+      "fields":{  
+         "description":"Team-based video games (LoL, Dota, Overwatch etc.)"
+      }
+   },
+   {  
+      "model":"portal.hobby",
+      "pk":13,
+      "fields":{  
+         "description":"Other video games (Dragon Age, Dark Souls, Nier etc.)"
+      }
+   },
+   {  
+      "model":"portal.hobby",
+      "pk":14,
+      "fields":{  
+         "description":"Hockey"
+      }
+   },
+   {  
+      "model":"portal.hobby",
+      "pk":15,
+      "fields":{  
+         "description":"Martial arts or self defense"
+      }
+   },
+   {  
+      "model":"portal.hobby",
+      "pk":16,
+      "fields":{  
+         "description":"Media and Journalism"
+      }
+   },
+   {  
+      "model":"portal.hobby",
+      "pk":17,
+      "fields":{  
+         "description":"Motors and Transport - eg driving, maintenance and racing - includes rail transport and classic vehicles"
+      }
+   },
+   {  
+      "model":"portal.hobby",
+      "pk":18,
+      "fields":{  
+         "description":"Music (performing) - playing and performing in bands, ensembles and orchestras"
+      }
+   },
+   {  
+      "model":"portal.hobby",
+      "pk":19,
+      "fields":{  
+         "description":"Other Sports - Sports that do not fit into any other category"
+      }
+   },
+   {  
+      "model":"portal.hobby",
+      "pk":20,
+      "fields":{  
+         "description":"Politics and Debating"
+      }
+   },
+   {  
+      "model":"portal.hobby",
+      "pk":21,
+      "fields":{  
+         "description":"Recreational Sports - eg. golf or darts"
+      }
+   },
+   {  
+      "model":"portal.hobby",
+      "pk":22,
+      "fields":{  
+         "description":"Rugby (League and Union)"
+      }
+   },
+   {  
+      "model":"portal.hobby",
+      "pk":23,
+      "fields":{  
+         "description":"Table Sports - eg. table tennis or table football"
+      }
+   },
+   {  
+      "model":"portal.hobby",
+      "pk":24,
+      "fields":{  
+         "description":"Tennis or other racket based sports - eg. Badminton"
+      }
+   },
+   {  
+      "model":"portal.hobby",
+      "pk":25,
+      "fields":{  
+         "description":"Water Sports - eg. scuba diving, swimming or windsurfing"
+      }
+   }
+]
