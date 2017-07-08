@@ -7,11 +7,8 @@ from portal.tests.constants import VALID_USERNAME
 from portal.utils import get_invalid_id_popup
 
 
-def create_student_and_return(username, child=False, magic_id=None):
-    if magic_id:
-        student = Student(username=username, child=child,  magic_id=magic_id)
-    else:
-        student = Student(username=username, child=child)
+def create_student_and_return(username, child=False, magic_id=None, party=False):
+    student = Student(username=username, child=child,  magic_id=magic_id, party=party)
 
     student.save()
     return student

@@ -27,7 +27,7 @@ class Student(models.Model):
         return self.username
 
     def save(self, *args, **kwargs):
-        if len(self.magic_id) == 0:
+        if not self.magic_id or len(self.magic_id) == 0:
             self.magic_id = get_random_id()
         super(Student, self).save(*args, **kwargs)
 
@@ -39,13 +39,16 @@ class Student(models.Model):
         message = "Account already exists. Activation email re-sent to %s@ic.ac.uk." % self.username
         return {'message': message, 'state': 'warning'}
 
+    def assign_partner(self, partner):
+        self.assign_to(self, partner)
+        self.assign_to(partner, self)
+
     def marry_to(self, partner):
         if self.confirmed or partner.partner != self:
             message = "You  cannot marry this person. Might have occurred because %s withdrew their proposal." % partner
             return {'message': message,'state': 'danger'}
 
-        self.assign_to(self, partner)
-        self.assign_to(partner, self)
+        self.assign_partner(partner)
 
         message = "You have married %s successfully." % partner
         return {'message': message, 'state': 'success'}
@@ -77,3 +80,24 @@ class Student(models.Model):
         student.partner = to
         student.confirmed = True
         student.save()
+
+
+class FamilyManager(models.Manager):
+    def create_family(self, parents=None):
+        family = self.create()
+
+        if parents:
+            for parent in parents:
+                family.parents.add(parent.id)
+
+        return family
+
+
+class Family(models.Model):
+    parents = models.ManyToManyField(to=Student, related_name='parents')
+    children = models.ManyToManyField(to=Student, related_name='children')
+
+    objects = FamilyManager()
+
+    def __str__(self):
+        return self.id

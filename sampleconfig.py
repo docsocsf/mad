@@ -5,3 +5,8 @@ SECRET_KEY = 'p2kp70aidc@i0%z6a60yr%i8@s18mn44g+1kfv8-=d5!)sb_@4'
 DEBUG = True
 
 DOMAIN_URL = 'http://127.0.0.1:8000'
+
+# Priorities when matching students
+POINTS_FOR_PARTY_MATCH = 2
+POINTS_FOR_INTEREST_MATCH = 1
+EXPECTED_CHILDREN = 180
