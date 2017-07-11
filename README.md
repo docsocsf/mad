@@ -29,6 +29,17 @@ If you are using PyCharm there is no need to do this manually.
 ```
 pip install virtualenv
 virtualenv .env
+```
+
+If you are running a POSIX-based operating system (i.e. Linux, macOS) with bash:
+
+```
+source .env/bin/activate
+```
+
+else try:
+
+```
 source .env/Scripts/activate
 ```
 
