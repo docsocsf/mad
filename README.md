@@ -17,6 +17,8 @@ Virtual environment is where all libraries used in this project will be installe
 generally good practice to use one to avoid issues when different projects use different library versions. 
 [Find out more here.](https://www.dabapps.com/blog/introduction-to-pip-and-virtualenv-python/)
 
+Please also note that this project uses Python 3.6, if you have multiple versions of Python running on your computer, you may want to tell virtualenv this fact by issuing "virtualenv -p python3.6 .env" instead of "virtualenv .env" later down this document.
+
 ### PyCharm
 
 If you are using PyCharm there is no need to do this manually. 
@@ -27,6 +29,17 @@ If you are using PyCharm there is no need to do this manually.
 ```
 pip install virtualenv
 virtualenv .env
+```
+
+If you are running a POSIX-based operating system (i.e. Linux, macOS) with bash:
+
+```
+source .env/bin/activate
+```
+
+else try:
+
+```
 source .env/Scripts/activate
 ```
 
