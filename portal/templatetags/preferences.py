@@ -1,7 +1,7 @@
 from django.template.defaulttags import register
 
 from portal.forms import PartnerForm, PreferenceForm
-from portal.models import Student
+from portal.models import Student, Family
 
 
 @register.inclusion_tag('portal/partner_preferences.html')
@@ -15,3 +15,13 @@ def partner_preferences(student, partner_popup):
 @register.inclusion_tag('portal/personal_preferences.html')
 def personal_preferences(student):
     return {'preference': PreferenceForm(instance=student)}
+
+
+@register.inclusion_tag('portal/family_view.html')
+def parents_view(student):
+    return {'others': student.family.parents.all(), 'type': 'parents'}
+
+
+@register.inclusion_tag('portal/family_view.html')
+def children_view(student):
+    return {'others': student.family.children.all(), 'type': 'children'}

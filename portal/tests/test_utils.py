@@ -157,3 +157,19 @@ class AssignmentTests(TestCase):
         f2 = Family.objects.get(id=2)
 
         self.assertFalse(s1 in f2.children.all())
+
+    def test_family_set_after_assignment(self):
+        p1 = create_student_and_return('P1', child=False)
+        p2 = create_student_and_return('P2', child=False)
+
+        create_families_from_parents()
+
+        s1 = create_student_and_return('S1', child=True)
+
+        assign_children_to_families()
+
+        p1 = refresh_object(Student, p1)
+        s1 = refresh_object(Student, s1)
+
+        self.assertIsNotNone(p1.parents)
+        self.assertIsNotNone(s1.parents)

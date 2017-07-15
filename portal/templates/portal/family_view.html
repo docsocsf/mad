@@ -1,0 +1,14 @@
+{% load bootstrap3 %}
+
+<label class="control-label">
+    Your {{ type }}:
+</label>
+
+
+<ul class="list-group">
+    {% for student in others %}
+        <li class="list-group-item" style="border: none;">
+            {{ student }}
+        </li>
+    {% endfor %}
+</ul>
