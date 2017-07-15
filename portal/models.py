@@ -21,6 +21,7 @@ class Student(models.Model):
     party = models.BooleanField(default=False)
     hobbies = models.ManyToManyField(to=Hobby, blank=True)
     partner = models.ForeignKey('Student', null=True, blank=True)
+    family = models.ForeignKey('Family', null=True, blank=True)
     confirmed = models.BooleanField(default=False)
 
     def __str__(self):
@@ -89,6 +90,8 @@ class FamilyManager(models.Manager):
         if parents:
             for parent in parents:
                 family.parents.add(parent.id)
+                parent.family = family
+                parent.save()
 
         return family
 
@@ -100,4 +103,10 @@ class Family(models.Model):
     objects = FamilyManager()
 
     def __str__(self):
-        return self.id
+        return str(self.id)
+
+    def assign_child(self, child):
+        self.children.add(child.id)
+        child.family = self
+        child.confirmed = True
+        child.save()

@@ -89,9 +89,7 @@ def __find_family_for_child(child, families):
             points = family_points
             use_family = family
 
-    use_family.children.add(child.id)
-    child.confirmed = True
-    child.save()
+    use_family.assign_child(child)
 
 
 def __interest_overlap_in_family(child, family, avg_size):

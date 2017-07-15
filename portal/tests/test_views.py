@@ -4,7 +4,7 @@ from django.urls import reverse
 from common.util.generator import get_random_id
 from portal.models import Student, Hobby
 from portal.tests.constants import VALID_USERNAME
-from portal.utils import get_invalid_id_popup
+from portal.utils import get_invalid_id_popup, create_families_from_parents, assign_children_to_families
 
 
 def create_student_and_return(username, child=False, magic_id=None, party=False):
@@ -185,3 +185,14 @@ class PreferenceViewTests(TestCase):
                                     {'username': self.student1.username, 'accept': ''})
         self.assertContains(response, 'danger')
         self.assertNotContains(response, 'success')
+
+    def test_shows_parents_and_children_after_assignment(self):
+        child = create_student_and_return('child', child=True)
+        create_families_from_parents()
+        assign_children_to_families()
+        response = self.client.get(self.get_preferences_url(child.magic_id))
+        self.assertContains(response, self.student1)
+        self.assertContains(response, self.student2)
+
+        response = self.client.get(self.get_preferences_url(self.student1.magic_id))
+        self.assertContains(response, child)
