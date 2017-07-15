@@ -7,8 +7,9 @@ from portal.models import Student, Hobby
 class SignUpForm(forms.ModelForm):
     class Meta:
         model = Student
-        fields = ['username']
+        fields = ['name', 'username', 'gender', 'course']
         widgets = {
+            'name': forms.TextInput(attrs={'placeholder': 'Ideally similar to name on FB'}),
             'username': forms.TextInput(attrs={'placeholder': 'xy1217'}),
         }
 
@@ -49,8 +50,10 @@ class PartnerForm(forms.ModelForm):
 
     def __init__(self, *args, **kwargs):
         super(PartnerForm, self).__init__(*args, **kwargs)
+        self.instance = kwargs.pop('instance', None)
 
-        # ToDo(martinzlocha): Filter the potential partner - remove self and people with requests/accepted
+        choice = Student.objects.filter(confirmed=False, child=False).exclude(username__contains=self.instance.username)
+        self.fields["partner"].queryset = choice
 
     def get_successful_proposal_popup(self):
         message = "Proposal has been successfully sent to %s." % self.cleaned_data['partner']

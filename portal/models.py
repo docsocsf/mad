@@ -1,6 +1,9 @@
 from django.db import models
 
 from common.util.generator import get_random_id
+from config import DOMAIN_URL
+from portal.mailservice.mailer import Mailer
+from portal.mailservice.message import Message
 
 
 class Hobby(models.Model):
@@ -15,7 +18,22 @@ class Hobby(models.Model):
 
 
 class Student(models.Model):
-    username = models.CharField(max_length=7,unique=True)
+    GENDER_CHOICES = (
+        ('M', 'Male'),
+        ('F', 'Female'),
+        ('O', 'Other'),
+        ('U', 'Prefer not to say'),
+    )
+
+    COURSE_CHOICES = (
+        ('C', 'Computing'),
+        ('J', 'JMC')
+    )
+
+    name = models.CharField(max_length=100)
+    username = models.CharField(max_length=7, unique=True)
+    gender = models.CharField(max_length=1, choices=GENDER_CHOICES)
+    course = models.CharField(max_length=1, choices=COURSE_CHOICES)
     magic_id = models.CharField(max_length=8)
     child = models.BooleanField()
     party = models.BooleanField(default=False)
@@ -23,9 +41,10 @@ class Student(models.Model):
     partner = models.ForeignKey('Student', null=True, blank=True)
     family = models.ForeignKey('Family', null=True, blank=True)
     confirmed = models.BooleanField(default=False)
+    activated = models.BooleanField(default=False)
 
     def __str__(self):
-        return self.username
+        return self.name
 
     def save(self, *args, **kwargs):
         if not self.magic_id or len(self.magic_id) == 0:
@@ -33,11 +52,17 @@ class Student(models.Model):
         super(Student, self).save(*args, **kwargs)
 
     def get_new_student_popup(self):
-        message = "Email has been sent to %s@ic.ac.uk. Go activate your account." % self.username
-        return {'message': message, 'state': 'success'}
+        popup = "Email has been sent to %s@ic.ac.uk. Please check your email to activate your account." % self.username
+        message = "To view the Mums and Dads portal go to %s/preferences/%s/\n\nKeep this URL safe, anyone with it " \
+                  "can see your hobbies." % (DOMAIN_URL, self.magic_id)
+
+        with Mailer() as mail:
+            mail.send_email(Message(self, "Mums and Dads login link", message))
+
+        return {'message': popup, 'state': 'success'}
 
     def get_existing_student_popup(self):
-        message = "Account already exists. Activation email re-sent to %s@ic.ac.uk." % self.username
+        message = "Account already exists. You should have received an email at %s@ic.ac.uk." % self.username
         return {'message': message, 'state': 'warning'}
 
     def assign_partner(self, partner):
@@ -47,7 +72,7 @@ class Student(models.Model):
     def marry_to(self, partner):
         if self.confirmed or partner.partner != self:
             message = "You  cannot marry this person. Might have occurred because %s withdrew their proposal." % partner
-            return {'message': message,'state': 'danger'}
+            return {'message': message, 'state': 'danger'}
 
         self.assign_partner(partner)
 
@@ -75,6 +100,11 @@ class Student(models.Model):
 
         message = "You have successfully rejected %s proposal. Ouch!" % partner
         return {'message': message, 'state': 'success'}
+
+    def activate(self):
+        if not self.activated:
+            self.activated = True
+            self.save()
 
     @staticmethod
     def assign_to(student, to):

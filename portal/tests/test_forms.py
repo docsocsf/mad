@@ -1,13 +1,14 @@
 from django.test import TestCase
 
-from portal.forms import SignUpForm, PreferenceForm
+from portal.forms import SignUpForm, PreferenceForm, PartnerForm
 from portal.models import Hobby
+from portal.tests.test_views import create_student_and_return
 
 
 class SignUpFormTests(TestCase):
     @staticmethod
     def create_form(username=''):
-        form_data = {'username': username}
+        form_data = {'name': 'Name', 'username': username, 'gender': 'M', 'course': 'C'}
         return SignUpForm(data=form_data)
 
     def test_empty_form_is_invalid(self):
@@ -45,4 +46,42 @@ class PreferenceFormTests(TestCase):
         Hobby(description='F').save()
 
         form = self.create_form(False, Hobby.objects.all())
+        self.assertFalse(form.is_valid())
+
+
+class PartnerFormTests(TestCase):
+    @staticmethod
+    def create_form(instance=None, partner=None):
+        if not partner:
+            form_data = {}
+        else:
+            form_data = {'partner': partner.id}
+        return PartnerForm(instance=instance, data=form_data)
+
+    def setUp(self):
+        self.student = create_student_and_return('A', child=False)
+
+    def test_empty_form_is_valid(self):
+        form = self.create_form(self.student)
+        self.assertTrue(form.is_valid())
+
+    def test_propose_to_someone_else_is_valid(self):
+        new = create_student_and_return('B', child=False)
+        form = self.create_form(self.student, new)
+        self.assertTrue(form.is_valid())
+
+    def test_student_cant_propose_to_self(self):
+        form = self.create_form(self.student, self.student)
+        self.assertFalse(form.is_valid())
+
+    def test_cannot_propose_to_child(self):
+        new = create_student_and_return('B', child=True)
+        form = self.create_form(self.student, new)
+        self.assertFalse(form.is_valid())
+
+    def test_cannnot_propose_to_someone_married(self):
+        new = create_student_and_return('B', child=False)
+        new.confirmed = True
+        new.save()
+        form = self.create_form(self.student, new)
         self.assertFalse(form.is_valid())
