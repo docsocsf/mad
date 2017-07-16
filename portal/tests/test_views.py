@@ -1,14 +1,14 @@
 from django.test import TestCase
 from django.urls import reverse
 
-from common.util.generator import get_random_id
 from portal.models import Student, Hobby
 from portal.tests.constants import VALID_USERNAME
 from portal.utils import get_invalid_id_popup, create_families_from_parents, assign_children_to_families
 
 
-def create_student_and_return(username, child=False, magic_id=None, party=False):
-    student = Student(username=username, child=child,  magic_id=magic_id, party=party)
+def create_student_and_return(username, child=False, magic_id=None, party=False, name='Name', gender='M', course='C'):
+    student = Student(username=username, child=child,  magic_id=magic_id, party=party, name=name, gender=gender,
+                      course=course)
 
     student.save()
     return student
@@ -35,24 +35,37 @@ class IndexViewTests(TestCase):
         response = self.client.get(self.PARENT)
         self.assertContains(response, 'parent')
 
-    def test_child_created_correctly(self):
-        response = self.client.post(self.CHILD, {'username': VALID_USERNAME})
-        self.assertTrue(Student.objects.filter(username=VALID_USERNAME).exists())
-
-        student = Student.objects.get(username=VALID_USERNAME)
-        self.assertTrue(student.child)
-
-        self.assertContains(response, student.get_new_student_popup()['message'])
+    def test_child_registration_closed(self):
+        response = self.client.post(self.CHILD,
+                                    {'name': 'Name', 'username': VALID_USERNAME, 'gender': 'M', 'course': 'C'})
+        self.assertFalse(Student.objects.filter(username=VALID_USERNAME).exists())
+        self.assertContains(response, "closed")
 
     def test_parent_created_correctly(self):
-        self.client.post(self.PARENT, {'username': VALID_USERNAME})
+        self.client.post(self.PARENT, {'name': 'Name', 'username': VALID_USERNAME, 'gender': 'M', 'course': 'C'})
         self.assertTrue(Student.objects.filter(username=VALID_USERNAME).exists())
+
+    def test_cannot_create_same_account_twice(self):
+        response = self.client.post(self.PARENT,
+                                    {'name': 'Name', 'username': VALID_USERNAME, 'gender': 'M', 'course': 'C'})
+        self.assertContains(response, "activate")
+
+        response = self.client.post(self.PARENT,
+                                    {'name': 'Name', 'username': VALID_USERNAME, 'gender': 'M', 'course': 'C'})
+        self.assertContains(response, "exists")
+        self.assertTrue(Student.objects.filter(username=VALID_USERNAME).count() == 1)
+
+    def test_account_not_activated_when_created(self):
+        self.client.post(self.PARENT, {'name': 'Name', 'username': VALID_USERNAME, 'gender': 'M', 'course': 'C'})
+
+        student = Student.objects.get(username=VALID_USERNAME)
+        self.assertFalse(student.activated)
 
 
 class PreferenceViewTests(TestCase):
     def setUp(self):
-        self.student1 = create_student_and_return('A')
-        self.student2 = create_student_and_return('B')
+        self.student1 = create_student_and_return('A', name='A')
+        self.student2 = create_student_and_return('B', name='B')
 
     def refreshSetUp(self):
         self.student1 = Student.objects.get(id=self.student1.id)
@@ -64,8 +77,7 @@ class PreferenceViewTests(TestCase):
 
     def test_invalid_id_sends_to_index(self):
         response = self.client.get(self.get_preferences_url('12345678'))
-        self.assertContains(response, get_invalid_id_popup()['message'])
-        self.assertContains(response, 'Register')
+        self.assertContains(response, "closed")
 
     def test_correctly_returns_saved_data(self):
         create_hobby('A')
@@ -196,3 +208,8 @@ class PreferenceViewTests(TestCase):
 
         response = self.client.get(self.get_preferences_url(self.student1.magic_id))
         self.assertContains(response, child)
+
+    def test_account_gets_activated_after_visit(self):
+        self.client.get(self.get_preferences_url(self.student1.magic_id))
+        student = Student.objects.get(id=self.student1.id)
+        self.assertTrue(student.activated)

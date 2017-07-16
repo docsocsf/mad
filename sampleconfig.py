@@ -10,3 +10,16 @@ DOMAIN_URL = 'http://127.0.0.1:8000'
 POINTS_FOR_PARTY_MATCH = 2
 POINTS_FOR_INTEREST_MATCH = 1
 EXPECTED_CHILDREN = 180
+
+# Registration settings
+ALLOW_PARENT_REGISTRATION = True
+ALLOW_CHILD_REGISTRATION = False
+
+# Mailing settings
+SEND_EMAILS = False
+HOST = "smtp.office365.com"
+PORT = 587
+TLS = True
+FROM = "example@ic.ac.uk"
+USER = "example@ic.ac.uk"
+PASSWORD = "password"
