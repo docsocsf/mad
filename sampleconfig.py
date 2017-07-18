@@ -23,3 +23,6 @@ TLS = True
 FROM = "example@ic.ac.uk"
 USER = "example@ic.ac.uk"
 PASSWORD = "password"
+
+# Settings
+ALLOWED_HOSTS = []

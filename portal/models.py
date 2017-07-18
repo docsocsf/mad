@@ -1,7 +1,11 @@
 from django.db import models
 
-from common.util.generator import get_random_id
 from config import DOMAIN_URL
+from portal.common.util.generator import get_random_id
+
+from portal.config.messages import GET_NEW_STUDENT_POPUP, GET_NEW_STUDENT_EMAIL, GET_EXISTING_STUDENT_POPUP, \
+    CANNOT_MARRY, MARRIED_SUCCESSFULLY, CANNOT_WITHDRAW_PROPOSAL, WITHDREW_PROPOSAL_SUCCESSFULLY, \
+    FAILED_TO_REJECT_PROPOSAL, REJECTED_PROPOSAL_SUCCESSFULLY
 from portal.mailservice.mailer import Mailer
 from portal.mailservice.message import Message
 
@@ -52,9 +56,8 @@ class Student(models.Model):
         super(Student, self).save(*args, **kwargs)
 
     def get_new_student_popup(self):
-        popup = "Email has been sent to %s@ic.ac.uk. Please check your email to activate your account." % self.username
-        message = "To view the Mums and Dads portal go to %s/preferences/%s/\n\nKeep this URL safe, anyone with it " \
-                  "can see your hobbies." % (DOMAIN_URL, self.magic_id)
+        popup = GET_NEW_STUDENT_POPUP % self.username
+        message = GET_NEW_STUDENT_EMAIL % (DOMAIN_URL, self.magic_id)
 
         with Mailer() as mail:
             mail.send_email(Message(self, "Mums and Dads login link", message))
@@ -62,8 +65,8 @@ class Student(models.Model):
         return {'message': popup, 'state': 'success'}
 
     def get_existing_student_popup(self):
-        message = "Account already exists. You should have received an email at %s@ic.ac.uk." % self.username
-        return {'message': message, 'state': 'warning'}
+        popup = GET_EXISTING_STUDENT_POPUP % self.username
+        return {'message': popup, 'state': 'warning'}
 
     def assign_partner(self, partner):
         self.assign_to(self, partner)
@@ -71,34 +74,34 @@ class Student(models.Model):
 
     def marry_to(self, partner):
         if self.confirmed or partner.partner != self:
-            message = "You  cannot marry this person. Might have occurred because %s withdrew their proposal." % partner
+            message = CANNOT_MARRY % partner
             return {'message': message, 'state': 'danger'}
 
         self.assign_partner(partner)
 
-        message = "You have married %s successfully." % partner
+        message = MARRIED_SUCCESSFULLY % partner
         return {'message': message, 'state': 'success'}
 
     def withdraw_proposal(self):
         if self.confirmed or not self.partner:
-            message = "You cannot withdraw your proposal because %s already accepted. That's rude!" % self.partner
+            message = CANNOT_WITHDRAW_PROPOSAL % self.partner
             return {'message': message, 'state': 'danger'}
 
         self.partner = None
         self.save()
 
-        message = "Your proposal has been withdrawn."
+        message = WITHDREW_PROPOSAL_SUCCESSFULLY
         return {'message': message, 'state': 'success'}
 
     def reject_proposal(self, partner):
         if self.confirmed or partner.partner != self:
-            message = "Failed to reject proposal. Might have been caused because %s withdrew their offer. " % partner
+            message = FAILED_TO_REJECT_PROPOSAL % partner
             return {'message': message, 'state': 'danger'}
 
         partner.partner = None
         partner.save()
 
-        message = "You have successfully rejected %s proposal. Ouch!" % partner
+        message = REJECTED_PROPOSAL_SUCCESSFULLY % partner
         return {'message': message, 'state': 'success'}
 
     def activate(self):
