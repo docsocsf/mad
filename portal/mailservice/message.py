@@ -1,3 +1,6 @@
+from portal.config.messages import MAIL_TEMPLATE
+
+
 class Message:
     def __init__(self, student, subject, message):
         if not subject or not message:
@@ -14,6 +17,4 @@ class Message:
         return self.__subject
 
     def message(self):
-        return "Hi %s \n\n%s \n\nBest regards,\nYour Departmental Representatives\n" \
-               "Martin Zlocha (Computing) & Rachel Lee Mekhtieva (JMC)" \
-               % (self.__student.name, self.__message)
+        return MAIL_TEMPLATE % (self.__student.name, self.__message)

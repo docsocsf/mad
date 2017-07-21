@@ -10,3 +10,10 @@ dependencies:
 test:
   override:
     - sh ./test.sh
+
+deployment:
+  production:
+    branch: production
+    commands:
+      - pip install awsebcli==3.7.4
+      - eb deploy --profile default

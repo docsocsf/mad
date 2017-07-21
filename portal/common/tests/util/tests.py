@@ -1,7 +1,7 @@
 import string
 import unittest
 
-from common.util.generator import get_random_id
+from portal.common.util.generator import get_random_id
 
 
 class GeneratorTests(unittest.TestCase):
