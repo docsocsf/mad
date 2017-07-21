@@ -51,6 +51,8 @@ class PartnerForm(forms.ModelForm):
     def __init__(self, *args, **kwargs):
         super(PartnerForm, self).__init__(*args, **kwargs)
         self.instance = kwargs.pop('instance', None)
+        self.fields['partner'].help_text = "If you don't have a partner then one will be allocated to you with " \
+                                           "similar hobbies."
 
         choice = Student.objects.filter(confirmed=False, child=False).exclude(username__contains=self.instance.username)
         self.fields["partner"].queryset = choice
