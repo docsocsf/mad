@@ -51,7 +51,7 @@ def preferences(request, id):
 
                 response = partner.get_successful_proposal_popup()
         elif 'username' in request.POST:
-            partner = Student.objects.get(username=request.POST.get("username"))
+            partner = Student.objects.get(name=request.POST.get("username"))
 
             if partner is None:
                 response = get_student_does_not_exist_popup()
