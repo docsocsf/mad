@@ -14,5 +14,6 @@ class Message:
         return self.__subject
 
     def message(self):
-        return "Hi %s \n\n %s \n\nBest regards,\nYour Departmental Representatives" \
+        return "Hi %s \n\n%s \n\nBest regards,\nYour Departmental Representatives\n" \
+               "Martin Zlocha (Computing) & Rachel Lee Mekhtieva (JMC)" \
                % (self.__student.name, self.__message)

@@ -62,7 +62,7 @@ class Student(models.Model):
         return {'message': popup, 'state': 'success'}
 
     def get_existing_student_popup(self):
-        message = "Account already exists. You should have received an email at %s@ic.ac.uk." % self.username
+        message = "Please check your email at %s@ic.ac.uk." % self.username
         return {'message': message, 'state': 'warning'}
 
     def assign_partner(self, partner):

@@ -1,6 +1,6 @@
 from django.shortcuts import render
 
-from config import DOMAIN_URL, ALLOW_CHILD_REGISTRATION, ALLOW_PARENT_REGISTRATION
+from config import ALLOW_CHILD_REGISTRATION, ALLOW_PARENT_REGISTRATION
 from portal.forms import SignUpForm, PreferenceForm, PartnerForm
 from portal.models import Student
 from portal.utils import get_invalid_id_popup, get_student_does_not_exist_popup
@@ -16,15 +16,13 @@ def index(request, position="child", popup=None):
         form = SignUpForm(request.POST)
         if form.is_valid():
             # ToDo(martinzlocha): Spam protection - limit the number of requests before the user gets ignored
-
-            if Student.objects.filter(username=form.cleaned_data['username']).exists():
-                student = Student.objects.get(username=form.cleaned_data['username'])
-                popup = student.get_existing_student_popup()
-            else:
-                student = form.save(commit=False)
-                student.child = position == "child"
-                student.save()
-                popup = student.get_new_student_popup()
+            student = form.save(commit=False)
+            student.child = position == "child"
+            student.save()
+            popup = student.get_new_student_popup()
+        elif Student.objects.filter(username=form.data['username']).exists():
+            student = Student.objects.get(username=form.data['username'])
+            popup = student.get_existing_student_popup()
     else:
         form = SignUpForm()
 
