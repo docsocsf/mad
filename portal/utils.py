@@ -1,6 +1,10 @@
 from math import ceil
+from random import shuffle
 
-from config import POINTS_FOR_PARTY_MATCH, POINTS_FOR_INTEREST_MATCH, EXPECTED_CHILDREN
+from config import POINTS_FOR_PARTY_MATCH, POINTS_FOR_INTEREST_MATCH, EXPECTED_CHILDREN, DOMAIN_URL
+from portal.config.messages import ASSIGNED_PARTNER_TEMPLATE, INACTIVE_ACCOUNT_TEMPLATE, ASSIGNED_TO_FAMILY
+from portal.mailservice.mailer import Mailer
+from portal.mailservice.message import Message
 from portal.models import Student, Family
 
 
@@ -10,6 +14,7 @@ def get_invalid_id_popup():
 
 def get_student_does_not_exist_popup():
     return {'message': "Failed to find student.", 'state': 'danger'}
+
 
 def get_on_save_wait_popup():
     return {'message': "Preferences saved. Now just wait to be allocated to a family!", 'state': 'success'}
@@ -82,17 +87,47 @@ def __interest_overlap_between_people(person1, person2):
 
 
 def __find_family_for_child(child, families):
-    use_family = None
+    family_options = list()
     points = -1
     avg_size = __avg_family_size()
 
     for family in families:
-        family_points = __interest_overlap_in_family(child, family, avg_size)
-        if points < family_points:
-            points = family_points
+        if __family_can_get_child(child, family):
+            family_points = __interest_overlap_in_family(child, family, avg_size)
+            if points < family_points:
+                points = family_points
+                family_options = list()
+                family_options.append(family)
+            elif points == family_points:
+                family_options.append(family)
+
+    shuffle(family_options)
+
+    size = 999
+    use_family = None
+
+    for family in family_options:
+        if size > family.children.count():
+            size = family.children.count()
             use_family = family
 
     use_family.assign_child(child)
+
+
+def __family_can_get_child(child, family):
+    parents = family.parents.all()
+
+    match_course = False
+    match_gender = False
+
+    for parent in parents:
+        if parent.course == child.course:
+            match_course = True
+
+        if not child.is_female() or parent.is_female():
+            match_gender = True
+
+    return match_course and match_gender
 
 
 def __interest_overlap_in_family(child, family, avg_size):
@@ -109,3 +144,49 @@ def __interest_overlap_in_family(child, family, avg_size):
 
 def __avg_family_size():
     return ceil(EXPECTED_CHILDREN / max(Family.objects.all().count(), 1))
+
+
+def email_inactive_accounts():
+    students = Student.objects.filter(activated=False).all()
+
+    with Mailer() as mail:
+        for student in students:
+            message = INACTIVE_ACCOUNT_TEMPLATE % (DOMAIN_URL, student.magic_id)
+            mail.send_email(Message(student, "Mums and Dads Account Activation", message))
+
+
+def notify_family_assignments():
+    families = Family.objects.all()
+
+    with Mailer() as mail:
+        for family in families:
+            parents = family.parents.filter(partner__isnull=False, confirmed=True, emailed=False).all()
+
+            for parent in parents:
+                partner = parent.partner
+                message = ASSIGNED_PARTNER_TEMPLATE % (partner, partner.username)
+                mail.send_email(Message(parent, "Mums and Dads Partner Assignment", message))
+                partner.emailed = True
+                partner.save()
+
+
+def notify_child_assignments():
+    families = Family.objects.all()
+
+    with Mailer() as mail:
+        for family in families:
+            parents = family.parents.all()
+            children = family.children.filter(emailed=False).all()
+
+            if children.count() > 0:
+                for child in children:
+                    position = "parents"
+                    message = ASSIGNED_TO_FAMILY % (position, position, DOMAIN_URL, child.magic_id)
+                    mail.send_email(Message(child, "Mums and Dads Parent Assignment", message))
+                    child.emailed = True
+                    child.save()
+
+                for parent in parents:
+                    position = "children"
+                    message = ASSIGNED_TO_FAMILY % (position, position, DOMAIN_URL, parent.magic_id)
+                    mail.send_email(Message(parent, "Mums and Dads Child Assignment", message))

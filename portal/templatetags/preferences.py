@@ -25,3 +25,9 @@ def parents_view(student):
 @register.inclusion_tag('portal/family_view.html')
 def children_view(student):
     return {'others': student.family.children.all(), 'type': 'children'}
+
+
+@register.inclusion_tag('portal/family_view.html')
+def sibling_view(student):
+    return {'others': student.family.children.all().exclude(username=student.username), 'type': 'siblings'}
+

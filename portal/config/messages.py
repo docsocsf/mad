@@ -15,3 +15,14 @@ REJECTED_PROPOSAL_SUCCESSFULLY = "You have successfully rejected %s proposal. Ou
 
 MAIL_TEMPLATE = "Hi %s \n\n%s \n\nBest regards,\nYour Departmental Representatives\n" \
                "Martin Zlocha (Computing) & Rachel Lee Mekhtieva (JMC)"
+
+ASSIGNED_PARTNER_TEMPLATE = "We would like to confirm that your partner for Mums and Dads is: %s (%s)\n\nWe will " \
+                            "start assigning children shortly so keep an eye out for more emails. We would also " \
+                            "recommend you set your hobbies now so that you get children who share your interests."
+
+INACTIVE_ACCOUNT_TEMPLATE = "You have not activated your Mums and Dads account yet. If you don't activate it within " \
+                            "24 hours it will be deleted.\n\n%s" % GET_NEW_STUDENT_EMAIL
+
+ASSIGNED_TO_FAMILY = "You have been assigned new %s. We would encourage you to get in touch with them and " \
+                     "create a family chat.\n\nYou can find out who your %s are by viewing the Mums and Dads " \
+                     "portal at %s/preferences/%s/"

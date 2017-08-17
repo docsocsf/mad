@@ -173,3 +173,78 @@ class AssignmentTests(TestCase):
 
         self.assertIsNotNone(p1.parents)
         self.assertIsNotNone(s1.parents)
+
+    def jmc_doesnt_get_comp_family(self):
+        create_student_and_return('P1', child=False, course='C')
+        create_student_and_return('P2', child=False, course='C')
+
+        s1 = create_student_and_return('S1', child=True, course='J')
+
+        create_families_from_parents()
+        assign_children_to_families()
+
+        s1 = refresh_object(Student, s1)
+
+        self.assertEquals(s1.family_id, None)
+
+    def girl_doesnt_get_all_guy_family(self):
+        create_student_and_return('P1', child=False, gender='M')
+        create_student_and_return('P2', child=False, gender='M')
+
+        s1 = create_student_and_return('S1', child=True, gender='F')
+
+        create_families_from_parents()
+        assign_children_to_families()
+
+        s1 = refresh_object(Student, s1)
+
+        self.assertEquals(s1.family_id, None)
+
+    def mixed_families_assign_correctly(self):
+        create_student_and_return('P1', child=False, gender='M', course='J')
+        create_student_and_return('P2', child=False, gender='F', course='C')
+
+        s1 = create_student_and_return('S1', child=True, gender='F', course='J')
+        s2 = create_student_and_return('S2', child=True, gender='M', course='C')
+
+        create_families_from_parents()
+        assign_children_to_families()
+
+        s1 = refresh_object(Student, s1)
+        s2 = refresh_object(Student, s2)
+
+        self.assertNotEquals(s1.family_id, None)
+        self.assertNotEquals(s2.family_id, None)
+
+    def guys_can_get_assigned_to_anyone(self):
+        create_student_and_return('P1', child=False, gender='F')
+        create_student_and_return('P2', child=False, gender='F')
+
+        s1 = create_student_and_return('S1', child=True, gender='M')
+
+        create_families_from_parents()
+        assign_children_to_families()
+
+        s1 = refresh_object(Student, s1)
+
+        self.assertNotEquals(s1.family_id, None)
+
+    def always_prefer_smaller_family_if_same_interest_overlap(self):
+        create_student_and_return('P1', child=False)
+        create_student_and_return('P2', child=False)
+        create_student_and_return('P3', child=False)
+        create_student_and_return('P4', child=False)
+
+        s1 = create_student_and_return('S1', child=True)
+        s2 = create_student_and_return('S2', child=True)
+
+        create_families_from_parents()
+        assign_children_to_families()
+
+        s1 = refresh_object(Student, s1)
+        s2 = refresh_object(Student, s2)
+
+        self.assertNotEqual(s1.family, s2.family)
+        self.assertNotEqual(s1.family, None)
+        self.assertNotEqual(s2.family, None)
+

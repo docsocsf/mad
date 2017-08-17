@@ -17,11 +17,15 @@
 
             {% if student.child and student.family %}
                 {% parents_view student %}
+
+                {% sibling_view student %}
             {% elif not student.child and student.family %}
-                 {% children_view student %}
+                {% children_view student %}
             {% endif %}
 
-            {% partner_preferences student partner_popup %}
+            {% if not student.child %}
+                {% partner_preferences student partner_popup %}
+            {% endif %}
 
             {% personal_preferences student preferences_popup %}
         </div>
