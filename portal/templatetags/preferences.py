@@ -13,8 +13,8 @@ def partner_preferences(student, partner_popup):
 
 
 @register.inclusion_tag('portal/personal_preferences.html')
-def personal_preferences(student):
-    return {'preference': PreferenceForm(instance=student)}
+def personal_preferences(student, preferences_popup):
+    return {'preference': PreferenceForm(instance=student), 'preferences_popup': preferences_popup}
 
 
 @register.inclusion_tag('portal/family_view.html')

@@ -3,7 +3,7 @@ from django.shortcuts import render
 from config import ALLOW_CHILD_REGISTRATION, ALLOW_PARENT_REGISTRATION
 from portal.forms import SignUpForm, PreferenceForm, PartnerForm
 from portal.models import Student
-from portal.utils import get_invalid_id_popup, get_student_does_not_exist_popup
+from portal.utils import get_invalid_id_popup, get_student_does_not_exist_popup, get_on_save_wait_popup
 
 
 def index(request, position="child", popup=None):
@@ -36,6 +36,7 @@ def preferences(request, id):
     student = Student.objects.get(magic_id=id)
     student.activate()
     response = None
+    preferences_popup = None
 
     if request.method == 'POST':
         if 'preference' in request.POST:
@@ -43,6 +44,8 @@ def preferences(request, id):
 
             if preference.is_valid():
                 preference.save()
+
+                preferences_popup = get_on_save_wait_popup()
         elif 'partner' in request.POST:
             partner = PartnerForm(request.POST, instance=student)
 
@@ -62,4 +65,4 @@ def preferences(request, id):
             elif 'withdraw' in request.POST:
                 response = student.withdraw_proposal()
 
-    return render(request, 'portal/preferences.html', {'student': student, 'partner_popup': response})
+    return render(request, 'portal/preferences.html', {'student': student, 'partner_popup': response, 'preferences_popup': preferences_popup})

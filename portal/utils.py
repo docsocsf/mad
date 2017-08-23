@@ -11,6 +11,9 @@ def get_invalid_id_popup():
 def get_student_does_not_exist_popup():
     return {'message': "Failed to find student.", 'state': 'danger'}
 
+def get_on_save_wait_popup():
+    return {'message': "Preferences saved. Now just wait to be allocated to a family!", 'state': 'success'}
+
 
 def create_families_from_parents():
     if Student.objects.filter(child=False).count() % 2 != 0:
