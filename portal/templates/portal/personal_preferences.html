@@ -4,6 +4,12 @@
     <form class="form-personal" method="post">
         {% csrf_token %}
 
+        {% if preferences_popup %}
+          <div class="alert alert-{{ preferences_popup.state }}">
+            {{ preferences_popup.message }}
+          </div>
+        {% endif %}
+
         {% bootstrap_form preference %}
 
         <button class="btn btn-lg btn-primary btn-block" name="preference" type="submit">
