@@ -46,6 +46,7 @@ class Student(models.Model):
     family = models.ForeignKey('Family', null=True, blank=True)
     confirmed = models.BooleanField(default=False)
     activated = models.BooleanField(default=False)
+    emailed = models.BooleanField(default=False)
 
     def __str__(self):
         return self.name
@@ -108,6 +109,9 @@ class Student(models.Model):
         if not self.activated:
             self.activated = True
             self.save()
+
+    def is_female(self):
+        return self.gender == 'F'
 
     @staticmethod
     def assign_to(student, to):
