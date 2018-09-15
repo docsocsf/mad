@@ -1,5 +1,5 @@
 branch-defaults:
-  production:
+  master:
     environment: doc-mad
 global:
   application_name: mad

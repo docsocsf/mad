@@ -36,27 +36,29 @@ class IndexViewTests(TestCase):
         self.assertContains(response, 'parent')
 
     def test_child_registration_closed(self):
-        response = self.client.post(self.CHILD,
-                                    {'name': 'Name', 'username': VALID_USERNAME, 'gender': 'M', 'course': 'C'})
+        response = self.client.post(self.CHILD, {'name': 'Name', 'username': VALID_USERNAME, 'gender': 'M',
+                                                 'course': 'C', 'social_link': 'NA'})
         self.assertFalse(Student.objects.filter(username=VALID_USERNAME).exists())
         self.assertContains(response, "closed")
 
     def test_parent_created_correctly(self):
-        self.client.post(self.PARENT, {'name': 'Name', 'username': VALID_USERNAME, 'gender': 'M', 'course': 'C'})
+        self.client.post(self.PARENT, {'name': 'Name', 'username': VALID_USERNAME, 'gender': 'M', 'course': 'C',
+                                       'social_link': 'NA'})
         self.assertTrue(Student.objects.filter(username=VALID_USERNAME).exists())
 
     def test_cannot_create_same_account_twice(self):
-        response = self.client.post(self.PARENT,
-                                    {'name': 'Name', 'username': VALID_USERNAME, 'gender': 'M', 'course': 'C'})
+        response = self.client.post(self.PARENT, {'name': 'Name', 'username': VALID_USERNAME, 'gender': 'M',
+                                                  'course': 'C', 'social_link': 'NA'})
         self.assertContains(response, "activate")
 
-        response = self.client.post(self.PARENT,
-                                    {'name': 'Name', 'username': VALID_USERNAME, 'gender': 'M', 'course': 'C'})
+        response = self.client.post(self.PARENT, {'name': 'Name', 'username': VALID_USERNAME, 'gender': 'M',
+                                                  'course': 'C', 'social_link': 'NA'})
         self.assertContains(response, "exists")
         self.assertTrue(Student.objects.filter(username=VALID_USERNAME).count() == 1)
 
     def test_account_not_activated_when_created(self):
-        self.client.post(self.PARENT, {'name': 'Name', 'username': VALID_USERNAME, 'gender': 'M', 'course': 'C'})
+        self.client.post(self.PARENT, {'name': 'Name', 'username': VALID_USERNAME, 'gender': 'M', 'course': 'C',
+                                       'social_link': 'NA'})
 
         student = Student.objects.get(username=VALID_USERNAME)
         self.assertFalse(student.activated)
