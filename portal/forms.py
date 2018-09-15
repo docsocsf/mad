@@ -58,5 +58,5 @@ class PartnerForm(forms.ModelForm):
         self.fields["partner"].queryset = choice
 
     def get_successful_proposal_popup(self):
-        message = "Proposal has been successfully sent to %s." % self.cleaned_data['partner']
+        message = "Proposal has been successfully sent to {}.".format(self.cleaned_data['partner'])
         return {'message': message, 'state': 'success'}

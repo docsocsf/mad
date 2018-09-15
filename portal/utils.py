@@ -151,7 +151,7 @@ def email_inactive_accounts():
 
     with Mailer() as mail:
         for student in students:
-            message = INACTIVE_ACCOUNT_TEMPLATE % (DOMAIN_URL, student.magic_id)
+            message = INACTIVE_ACCOUNT_TEMPLATE.format(DOMAIN_URL, student.magic_id)
             mail.send_email(Message(student, "Mums and Dads Account Activation", message))
 
 
@@ -164,7 +164,7 @@ def notify_family_assignments():
 
             for parent in parents:
                 partner = parent.partner
-                message = ASSIGNED_PARTNER_TEMPLATE % (partner, partner.username)
+                message = ASSIGNED_PARTNER_TEMPLATE.format(partner, partner.username)
                 mail.send_email(Message(parent, "Mums and Dads Partner Assignment", message))
                 partner.emailed = True
                 partner.save()
@@ -181,12 +181,12 @@ def notify_child_assignments():
             if children.count() > 0:
                 for child in children:
                     position = "parents"
-                    message = ASSIGNED_TO_FAMILY % (position, position, DOMAIN_URL, child.magic_id)
+                    message = ASSIGNED_TO_FAMILY.format(position, DOMAIN_URL, child.magic_id)
                     mail.send_email(Message(child, "Mums and Dads Parent Assignment", message))
                     child.emailed = True
                     child.save()
 
                 for parent in parents:
                     position = "children"
-                    message = ASSIGNED_TO_FAMILY % (position, position, DOMAIN_URL, parent.magic_id)
+                    message = ASSIGNED_TO_FAMILY.format(position, DOMAIN_URL, parent.magic_id)
                     mail.send_email(Message(parent, "Mums and Dads Child Assignment", message))
