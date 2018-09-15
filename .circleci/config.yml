@@ -1,0 +1,51 @@
+version: 2
+jobs:
+  setup:
+    docker:
+      - image: circleci/python:3.5.6-jessie-node-browsers
+    steps:
+      - checkout
+      - run: ./setup.sh
+      - persist_to_workspace:
+          root: /home/circleci/
+          paths:
+            - project
+
+  test:
+    docker:
+      - image: circleci/python:3.5.6-jessie-node-browsers
+    steps:
+      - attach_workspace:
+          at: /home/circleci
+      - run: source venv/bin/activate && ./test.sh
+  deploy:
+    docker:
+      - image: circleci/python:3.5.6-jessie-node-browsers
+    steps:
+      - attach_workspace:
+          at: /home/circleci
+      - run: source venv/bin/activate && eb deploy --profile default
+workflows:
+  version: 2
+  master:
+    jobs:
+      - setup:
+          filters:
+            branches:
+              only: master
+      - test:
+          requires:
+            - setup
+      - deploy:
+          requires:
+            - test
+
+  feature_branch:
+    jobs:
+      - setup
+      - test:
+          requires:
+            - setup
+          filters:
+            branches:
+              ignore: master

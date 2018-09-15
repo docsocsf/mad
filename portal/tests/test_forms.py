@@ -8,7 +8,7 @@ from portal.tests.test_views import create_student_and_return
 class SignUpFormTests(TestCase):
     @staticmethod
     def create_form(username=''):
-        form_data = {'name': 'Name', 'username': username, 'gender': 'M', 'course': 'C'}
+        form_data = {'name': 'Name', 'username': username, 'gender': 'M', 'course': 'C', 'social_link': 'NA'}
         return SignUpForm(data=form_data)
 
     def test_empty_form_is_invalid(self):
