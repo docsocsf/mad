@@ -5,8 +5,8 @@ import sys
 
 def required_file(required, sample, stop=True):
     if not os.path.isfile(required):
-        print("File %s is missing." % required)
-        print("Create a copy of %s, save it as %s. Change settings if need be." % (sample, required))
+        print("File {} is missing.".format(required))
+        print("Create a copy of {}, save it as {}. Change settings if need be.".format(sample, required))
 
         if stop:
             exit(-1)

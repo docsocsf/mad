@@ -32,7 +32,7 @@ class Mailer:
         if not self.__send_emails:
             return
 
-        message = """From: %s\nTo: %s\nSubject: %s\n\n%s
-            """ % (FROM, mail.recipient(), mail.subject(), mail.message())
+        message = """From: {}\nTo: {}\nSubject: {}\n\n{}
+            """.format(FROM, mail.recipient(), mail.subject(), mail.message())
 
         self.__smtp.sendmail(FROM, mail.recipient(), message)

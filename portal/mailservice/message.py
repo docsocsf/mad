@@ -11,10 +11,10 @@ class Message:
         self.__message = message
 
     def recipient(self):
-        return "%s@ic.ac.uk" % self.__student.username
+        return "{}@ic.ac.uk".format(self.__student.username)
 
     def subject(self):
         return self.__subject
 
     def message(self):
-        return MAIL_TEMPLATE % (self.__student.name, self.__message)
+        return MAIL_TEMPLATE.format(self.__student.name, self.__message)

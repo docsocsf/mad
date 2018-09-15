@@ -58,8 +58,8 @@ class Student(models.Model):
         super(Student, self).save(*args, **kwargs)
 
     def get_new_student_popup(self):
-        popup = GET_NEW_STUDENT_POPUP % self.username
-        message = GET_NEW_STUDENT_EMAIL % (DOMAIN_URL, self.magic_id)
+        popup = GET_NEW_STUDENT_POPUP.format(self.username)
+        message = GET_NEW_STUDENT_EMAIL.format(DOMAIN_URL, self.magic_id)
 
         with Mailer() as mail:
             mail.send_email(Message(self, "Mums and Dads login link", message))
@@ -67,7 +67,7 @@ class Student(models.Model):
         return {'message': popup, 'state': 'success'}
 
     def get_existing_student_popup(self):
-        popup = GET_EXISTING_STUDENT_POPUP % self.username
+        popup = GET_EXISTING_STUDENT_POPUP.format(self.username)
         return {'message': popup, 'state': 'warning'}
 
     def assign_partner(self, partner):
@@ -76,17 +76,17 @@ class Student(models.Model):
 
     def marry_to(self, partner):
         if self.confirmed or partner.partner != self:
-            message = CANNOT_MARRY % partner
+            message = CANNOT_MARRY.format(partner)
             return {'message': message, 'state': 'danger'}
 
         self.assign_partner(partner)
 
-        message = MARRIED_SUCCESSFULLY % partner
+        message = MARRIED_SUCCESSFULLY.format(partner)
         return {'message': message, 'state': 'success'}
 
     def withdraw_proposal(self):
         if self.confirmed or not self.partner:
-            message = CANNOT_WITHDRAW_PROPOSAL % self.partner
+            message = CANNOT_WITHDRAW_PROPOSAL.format(self.partner)
             return {'message': message, 'state': 'danger'}
 
         self.partner = None
@@ -97,13 +97,13 @@ class Student(models.Model):
 
     def reject_proposal(self, partner):
         if self.confirmed or partner.partner != self:
-            message = FAILED_TO_REJECT_PROPOSAL % partner
+            message = FAILED_TO_REJECT_PROPOSAL.format(partner)
             return {'message': message, 'state': 'danger'}
 
         partner.partner = None
         partner.save()
 
-        message = REJECTED_PROPOSAL_SUCCESSFULLY % partner
+        message = REJECTED_PROPOSAL_SUCCESSFULLY.format(partner)
         return {'message': message, 'state': 'success'}
 
     def activate(self):
