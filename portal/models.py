@@ -39,6 +39,7 @@ class Student(models.Model):
     gender = models.CharField(max_length=1, choices=GENDER_CHOICES)
     course = models.CharField(max_length=1, choices=COURSE_CHOICES)
     magic_id = models.CharField(max_length=8)
+    social_link = models.CharField(max_length=250)
     child = models.BooleanField()
     party = models.BooleanField(default=False)
     hobbies = models.ManyToManyField(to=Hobby, blank=True)

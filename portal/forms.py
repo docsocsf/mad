@@ -7,10 +7,12 @@ from portal.models import Student, Hobby
 class SignUpForm(forms.ModelForm):
     class Meta:
         model = Student
-        fields = ['name', 'username', 'gender', 'course']
+        fields = ['name', 'username', 'gender', 'course', 'social_link']
         widgets = {
             'name': forms.TextInput(attrs={'placeholder': 'Ideally similar to name on FB'}),
             'username': forms.TextInput(attrs={'placeholder': 'xy1217'}),
+            'social_link': forms.TextInput(attrs={'placeholder': 'Link to a social media account (ideally FB) or '
+                                                                 'email address'}),
         }
 
     def clean_username(self):

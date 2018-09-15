@@ -14,7 +14,7 @@ FAILED_TO_REJECT_PROPOSAL = "Failed to reject proposal. Might have been caused b
 REJECTED_PROPOSAL_SUCCESSFULLY = "You have successfully rejected {} proposal. Ouch!"
 
 MAIL_TEMPLATE = "Hi {} \n\n{} \n\nBest regards,\nYour Departmental Representatives\n" \
-               "Martin Zlocha (Computing) & Rachel Lee Mekhtieva (JMC)"
+               "Martin Zlocha (Computing) & Rachel Lee Mekhtieva (JMC) & Fawaz Shah (JMC)"
 
 ASSIGNED_PARTNER_TEMPLATE = "We would like to confirm that your partner for Mums and Dads is: {} ({})\n\nWe will " \
                             "start assigning children shortly so keep an eye out for more emails. We would also " \

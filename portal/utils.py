@@ -20,6 +20,10 @@ def get_on_save_wait_popup():
     return {'message': "Preferences saved. Now just wait to be allocated to a family!", 'state': 'success'}
 
 
+def get_too_many_hobbies_popup():
+    return {'message': "You cannot select more than 5 hobbies.", 'state': 'danger'}
+
+
 def create_families_from_parents():
     if Student.objects.filter(child=False).count() % 2 != 0:
         to_remove = Student.objects.filter(child=False, partner__isnull=True).last()
