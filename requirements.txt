@@ -1,4 +1,4 @@
-Django==1.11.21
+Django==1.11.28
 django-bootstrap3==8.2.3
 pytz==2017.2
 awsebcli==3.7.4
